@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11 Avenue Café</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{background:#f7ead9;padding:12px;padding-bottom:85px;transition:.3s}
+body.dark{background:#1a1512;color:#eee}
+body.dark .card,body.dark .welcome,body.dark .stat,body.dark .login-box{background:#2d2622;border-color:#444;color:#eee}
+body.dark .item,body.dark .sale-item,body.dark .cart-item,body.dark .profile-info{background:#2d2622;border-color:#444}
+body.dark input,body.dark select{background:#3a332e;color:white;border-color:#555}
+body.dark .filter-row button,body.dark .btn-light,body.dark .back-bar button{background:#3a332e;color:white;border-color:#555}
+body.dark .item p,body.dark .welcome p,body.dark .stat span,body.dark .dash-card small{color:#bbb}
+body.dark .dash-card{background:#2d2622;border-color:#444}
+body.dark .dash-card b,body.dark .dash-card span,body.dark .stat b,body.dark .card h3,body.dark .welcome h2,body.dark .profile-card h2{color:white}
+body.dark .dash-card.highlight{background:#3a2a1a;border-color:#ff9800}
+body.dark .dash-card.green{background:#1e3320;border-color:#4caf50}
+body.dark .dash-card.alert{background:#3a1a1a;border-color:#ef5350}
+.login-box{max-width:380px;margin:40px auto;background:#fffaf3;padding:26px;border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,.12);text-align:center;border:1px solid #f0dcc3}
+.login-box .logo{font-size:48px}
+.login-box h1{font-size:24px;color:#4e342e;margin:10px 0 4px}
+.login-box p{font-size:13px;color:#a1887f;margin-bottom:20px;line-height:1.5}
+.login-box input{width:100%;padding:13px;margin-bottom:12px;border:1.5px solid #e8d5b5;border-radius:12px;font-size:14px;outline:none;background:white}
+.login-btn{width:100%;padding:13px;border:none;border-radius:12px;background:#6d4c41;color:white;font-weight:bold;font-size:15px}
+.pass-wrap{position:relative;margin-bottom:12px}
+.pass-wrap input{margin-bottom:0;padding-right:48px}
+.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:20px;cursor:pointer;padding:6px}
+.header{background: linear-gradient(rgba(46,26,12,.78), rgba(46,26,12,.78)), url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=80');background-size:cover;background-position:center;color:white;padding:14px 14px 22px;border-radius:20px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.top-bar button{background:rgba(255,255,255,.95);color:#4e342e;border:none;padding:7px 12px;border-radius:20px;font-size:12px;font-weight:bold;white-space:nowrap}
+.top-bar .right-btns{display:flex;gap:6px}
+.header h1{font-size:24px;letter-spacing:1px}
+.header .tagline{font-style:italic;color:#ffcc80;margin:8px 0 4px;font-size:13px}
+.header p{font-size:11px;opacity:.9;line-height:1.4}
+.welcome{background:#fffaf3;padding:16px;border-radius:18px;margin:14px 0;border:1px solid #f0dcc3;box-shadow:0 4px 14px rgba(0,0,0,.07)}
+.welcome h2{font-size:19px;color:#4e342e}
+.welcome p{font-size:12px;color:#a1887f;margin-top:4px;line-height:1.5}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 10px}
+.dash-card{padding:14px;border-radius:16px;background:white;border:1px solid #f0dcc3;box-shadow:0 2px 8px rgba(0,0,0,.05);min-width:0}
+.dash-card.highlight{background:#fff3e0;border-color:#ffcc80}
+.dash-card.alert{background:#ffebee;border-color:#ffcdd2}
+.dash-card.green{background:#e8f5e9;border-color:#a5d6a7}
+.dash-card span{font-size:10px;font-weight:bold;color:#6d4c41}
+.dash-card b{display:block;font-size:16px;margin:6px 0 2px;color:#4e342e;word-break:break-word}
+.dash-card small{font-size:11px;color:#999}
+.low-item{background:#ffebee;padding:10px 12px;border-radius:10px;font-size:13px;margin-bottom:14px;color:#c62828;font-weight:bold}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.stat{background:#fffaf3;padding:12px 4px;border-radius:16px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.07);border:1px solid #f0dcc3;min-width:0;overflow:hidden}
+.stat b{font-size:16px;color:#6d4c41;display:block;word-break:break-word}
+.stat span{font-size:10px;color:#a1887f}
+.card{background:#fffaf3;padding:16px;border-radius:18px;box-shadow:0 4px 14px rgba(0,0,0,.07);margin-bottom:14px;border:1px solid #f0dcc3}
+.card h3{margin-bottom:12px;color:#4e342e}
+input,select{width:100%;padding:12px;margin-bottom:10px;border:1.5px solid #e8d5b5;border-radius:12px;font-size:14px;background:white;outline:none}
+.row{display:flex;gap:10px}
+.row input,.row select{flex:1}
+.btn{width:100%;padding:13px;border:none;border-radius:12px;background:#6d4c41;color:white;font-weight:bold;font-size:15px}
+.btn-light{width:100%;padding:13px;border:1.5px solid #d7ccc8;border-radius:12px;background:white;color:#6d4c41;font-weight:bold;font-size:14px;margin-top:10px}
+.tools{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.tools input{margin:0;flex:1;min-width:140px}
+.tools select{margin:0;width:120px;flex:1}
+.item{background:white;border-radius:16px;padding:12px;display:flex;gap:12px;align-items:center;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);border:1px solid #f5e6d0}
+.item img{width:68px;height:68px;object-fit:cover;border-radius:12px;flex-shrink:0}
+.item-info{flex:1;min-width:0}
+.item h4{font-size:15px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.item p{font-size:12px;color:#999;margin-top:4px}
+.price{font-weight:bold;color:#6d4c41;font-size:16px;text-align:right;white-space:nowrap}
+.badge{font-size:11px;padding:4px 8px;border-radius:20px;background:#efebe9}
+.best{background:#ff9800;color:white;font-size:10px;padding:4px 8px;border-radius:20px;font-weight:bold}
+.low{color:#e53935;font-weight:bold;font-size:11px}
+.out{color:#e53935;font-weight:bold;font-size:11px;background:#ffebee;padding:3px 7px;border-radius:10px}
+.actions{display:flex;gap:5px;margin-top:8px;justify-content:flex-end;flex-wrap:wrap}
+.edit{background:#ffb74d;color:#4e342e;border:none;padding:7px 10px;border-radius:9px;font-weight:bold;font-size:12px}
+.del{background:#ef5350;color:white;border:none;padding:7px 10px;border-radius:9px;font-size:12px}
+.sell{background:#4caf50;color:white;border:none;padding:7px 12px;border-radius:9px;font-weight:bold;font-size:12px}
+.addcart{background:#6d4c41;color:white;border:none;padding:8px 12px;border-radius:9px;font-weight:bold;font-size:12px}
+.plus{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;padding:4px 9px;border-radius:8px;font-weight:bold}
+.minus{background:#ffebee;color:#c62828;border:1px solid #ffcdd2;padding:4px 9px;border-radius:8px;font-weight:bold}
+.empty{text-align:center;color:#aaa;padding:20px;font-size:14px}
+.footer{text-align:center;font-size:11px;color:#a1887f;margin:14px 0;line-height:1.5}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;box-shadow:0 -2px 15px rgba(0,0,0,.1);padding:8px 0 14px;z-index:99}
+body.dark .bottom-nav{background:#2d2622}
+.bottom-nav button{flex:1;background:none;border:none;font-size:11px;color:#a1887f;font-weight:bold;padding:6px}
+.bottom-nav button.active{color:#6d4c41}
+body.dark .bottom-nav button.active{color:#ffcc80}
+.bottom-nav button span{font-size:20px;display:block}
+.sale-item{background:white;padding:10px 12px;border-radius:12px;display:flex;justify-content:space-between;margin-bottom:8px;border:1px solid #f0dcc3;font-size:13px}
+.sale-item b{color:#4e342e}
+body.dark .sale-item b{color:white}
+.sale-item small{color:#999}
+.filter-row{display:flex;gap:8px;margin-bottom:10px}
+.filter-row button{flex:1;padding:9px;border:1.5px solid #e8d5b5;border-radius:20px;background:white;font-size:12px;font-weight:bold;color:#6d4c41}
+.filter-row button.active{background:#6d4c41;color:white;border-color:#6d4c41}
+.profile-card{text-align:center;background:#fffaf3;padding:24px 16px;border-radius:20px;border:1px solid #f0dcc3;margin:14px 0}
+.profile-avatar{font-size:70px;background:#fff3e0;width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;border:3px solid #ffcc80}
+.profile-card h2{color:#4e342e}
+.profile-card p{color:#a1887f;font-size:13px;margin-top:4px}
+.profile-info{background:white;border-radius:14px;padding:14px;margin:10px 0;text-align:left;font-size:14px;line-height:2;border:1px solid #f0dcc3}
+.cart-item{display:flex;justify-content:space-between;align-items:center;background:white;padding:10px 12px;border-radius:12px;margin-bottom:8px;border:1px solid #f0dcc3;font-size:13px}
+.receipt-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:999;padding:16px}
+.receipt{background:white;width:100%;max-width:340px;border-radius:16px;padding:20px;text-align:center;color:#333;max-height:85vh;overflow:auto}
+.receipt h3{margin-bottom:2px}
+.receipt .line{border-top:1px dashed #ccc;margin:10px 0;padding-top:10px}
+.receipt-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;text-align:left}
+</style>
+</head>
+<body>
+
+<div id="page-login">
+  <div class="login-box">
+    <div class="logo">☕</div>
+    <h1>11 Avenue Café</h1>
+    <p>Legazpi City<br>Login para ma-manage yung café mo</p>
+    <input type="text" id="username" placeholder="Username">
+    <div class="pass-wrap">
+      <input type="password" id="password" placeholder="Password">
+      <button class="eye" onclick="togglePass()" id="eyeBtn">👁️</button>
+    </div>
+    <button class="login-btn" onclick="login()">Login →</button>
+    <p style="margin-top:16px;font-size:11px">John Marlo Bercasio - BSIT 3D</p>
+  </div>
+</div>
+
+<div id="page-dashboard" style="display:none">
+  <div class="header">
+    <div class="top-bar">
+      <button onclick="goBack()">← Back</button>
+      <div class="right-btns">
+        <button onclick="toggleDark()">🌙 Dark</button>
+        <button onclick="logout()">Logout ✕</button>
+      </div>
+    </div>
+    <h1>☕ 11 Avenue Café</h1>
+    <p class="tagline">"Sa 11th Avenue, Bawat Higop May Kwento."</p>
+    <p>Legazpi City | John Marlo Bercasio - BSIT 3D</p>
+  </div>
+  <div class="welcome"><h2>Welcome back, John Marlo! 👋</h2><p>Kamusta yung café mo ngayon?</p></div>
+  <div class="dash-grid">
+    <div class="dash-card green"><span>💰 BENTA TODAY</span><b id="salesToday">₱0</b><small id="salesCount">0 items nabenta</small></div>
+    <div class="dash-card highlight"><span>⭐ BEST SELLER</span><b>Spanish Latte</b><small>₱150 • 25 stocks</small></div>
+    <div class="dash-card alert"><span>⚠️ NEED RESTOCK</span><b id="lowStockCount">0 Items</b><small>Paubos na!</small></div>
+    <div class="dash-card"><span>📦 TOTAL STOCK</span><b id="totalStock2">0</b><small>lahat ng items</small></div>
+  </div>
+  <div id="lowStockList"></div>
+  <div class="stats">
+    <div class="stat"><b id="totalItems">0</b><span>Total Menu</span></div>
+    <div class="stat"><b id="totalValue">₱0</b><span>Total Value</span></div>
+    <div class="stat"><b id="totalStock">0</b><span>Total Stock</span></div>
+  </div>
+  <div class="card"><h3>🧾 Recent Sales</h3><div id="recentSales"></div></div>
+</div>
+
+<div id="page-inventory" style="display:none">
+  <div class="header">
+    <div class="top-bar">
+      <button onclick="goBack()">← Back</button>
+      <div class="right-btns"><button onclick="toggleDark()">🌙 Dark</button><button onclick="logout()">Logout ✕</button></div>
+    </div>
+    <h1 style="font-size:22px">📦 Stocks & Menu</h1><p>Manage mo dito yung menu</p>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3 id="formTitle">➕ Add New Menu</h3>
+    <input type="hidden" id="editId">
+    <input type="text" id="name" placeholder="Name - ex. Pili Nut Latte">
+    <div class="row"><select id="category"><option value="Hot Coffee">☕ Hot Coffee</option><option value="Iced Coffee">🧊 Iced Coffee</option><option value="Pastry">🥐 Pastry</option><option value="Non-Coffee">🥤 Non-Coffee</option></select><input type="number" id="price" placeholder="Price ₱"></div>
+    <input type="number" id="stock" placeholder="Stock - ex. 20">
+    <input type="text" id="imgUrl" placeholder="Picture link (optional)">
+    <button class="btn" onclick="saveItem()" id="saveBtn">Save Menu</button>
+    <button class="btn" onclick="cancelEdit()" id="cancelBtn" style="display:none;background:#999;margin-top:8px">Cancel Edit</button>
+  </div>
+  <div class="card">
+    <h3>📋 Menu List</h3>
+    <div class="tools"><input type="text" id="search" placeholder="🔍 Search coffee..." oninput="render()"><select id="filter" onchange="render()"><option value="All">All Category</option><option value="Hot Coffee">Hot Coffee</option><option value="Iced Coffee">Iced Coffee</option><option value="Pastry">Pastry</option><option value="Non-Coffee">Non-Coffee</option></select><select id="sortBy" onchange="render()"><option value="name">Sort: Name</option><option value="priceLow">Price: Low → High</option><option value="priceHigh">Price: High → Low</option><option value="stockLow">Stock: Paubos muna</option></select></div>
+    <div class="filter-row"><button id="btnAll" class="active" onclick="setLowOnly(false)">All Items</button><button id="btnLow" onclick="setLowOnly(true)">⚠️ Low Stock Only</button></div>
+    <div id="list"></div>
+  </div>
+</div>
+
+<div id="page-order" style="display:none">
+  <div class="header">
+    <div class="top-bar">
+      <button onclick="goBack()">← Back</button>
+      <div class="right-btns"><button onclick="toggleDark()">🌙 Dark</button><button onclick="logout()">Logout ✕</button></div>
+    </div>
+    <h1 style="font-size:22px">🛍️ Customer Order</h1><p>Pili ka, checkout, may resibo!</p>
+  </div>
+  <div class="card" style="margin-top:14px"><h3>☕ Menu - Pili ka!</h3><div id="orderList"></div></div>
+  <div class="card"><h3>🛒 Cart (<span id="cartCount">0</span>)</h3><div id="cartList"><div class="empty">Wala pang laman cart mo.</div></div><div style="display:flex;justify-content:space-between;font-weight:bold;font-size:16px;margin:10px 0"><span>Total:</span><span id="cartTotal">₱0</span></div><button class="btn" onclick="checkout()">Checkout & Print Receipt 🧾</button><button class="btn-light" onclick="clearCart()">Clear Cart</button></div>
+</div>
+
+<div id="page-profile" style="display:none">
+  <div class="header">
+    <div class="top-bar">
+      <button onclick="goBack()">← Back</button>
+      <div class="right-btns"><button onclick="toggleDark()">🌙 Dark</button><button onclick="logout()">Logout ✕</button></div>
+    </div>
+    <h1 style="font-size:22px">👤 My Profile</h1><p>Owner ng 11 Avenue Café</p>
+  </div>
+  <div class="profile-card">
+    <div class="profile-avatar">😺</div>
+    <h2>John Marlo Bercasio</h2>
+    <p>Owner / Manager - 11 Avenue Café</p>
+  </div>
+  <div class="card">
+    <h3>📝 Details</h3>
+    <div class="profile-info">
+      👤 <b>Name:</b> John Marlo Bercasio<br>
+      🎓 <b>Course:</b> BSIT 3D<br>
+      ☕ <b>Café:</b> 11 Avenue Café - Legazpi City<br>
+      📍 <b>Location:</b> Legazpi City, Albay<br>
+      💼 <b>Role:</b> Owner & Developer<br>
+    </div>
+  </div>
+</div>
+
+<div id="bottomNav" class="bottom-nav" style="display:none">
+  <button id="nav-dashboard" onclick="showPage('dashboard')"><span>🏠</span>Dashboard</button>
+  <button id="nav-inventory" onclick="showPage('inventory')"><span>📦</span>Stocks</button>
+  <button id="nav-order" onclick="showPage('order')"><span>🛍️</span>Order</button>
+  <button id="nav-profile" onclick="showPage('profile')"><span>👤</span>Profile</button>
+</div>
+
+<div id="receiptOverlay" class="receipt-overlay" onclick="if(event.target===this) closeReceipt()">
+  <div class="receipt">
+    <div style="font-size:36px">☕</div>
+    <h3>11 Avenue Café</h3>
+    <p style="font-size:12px;color:#888">Legazpi City<br>"Sa 11th Avenue, Bawat Higop May Kwento."</p>
+    <div class="line"></div>
+    <div id="receiptItems"></div>
+    <div class="line"></div>
+    <div class="receipt-row"><b>Total</b><b id="receiptTotal">₱0</b></div>
+    <div class="receipt-row"><span>Cashier</span><span>John Marlo</span></div>
+    <div class="receipt-row"><span>Date</span><span id="receiptDate"></span></div>
+    <div class="line"></div>
+    <p style="font-size:12px">Thank you, balik ka ulit! ❤️<br>Developed by John Marlo Bercasio</p>
+    <button class="btn" onclick="window.print()" style="margin-top:12px">🖨️ Print Receipt</button>
+    <button class="btn-light" onclick="closeReceipt()">Close</button>
+  </div>
+</div>
+
+<script>
+let menu = JSON.parse(localStorage.getItem('coffeeMenu11')) || [
+  {id:1, name:'Spanish Latte', category:'Hot Coffee', price:150, stock:25, best:true, img:'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&q=80'},
+  {id:2, name:'Iced Americano', category:'Iced Coffee', price:130, stock:30, best:false, img:'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300&q=80'},
+  {id:3, name:'Caramel Macchiato', category:'Iced Coffee', price:170, stock:15, best:false, img:'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=300&q=80'},
+  {id:4, name:'Croissant', category:'Pastry', price:95, stock:20, best:false, img:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&q=80'},
+  {id:5, name:'Our Yesterday Café', category:'Non-Coffee', price:150, stock:3, best:false, img:'https://images.unsplash.com/photo-1553787499-6f9133860278?w=300&q=80'},
+];
+let sales = JSON.parse(localStorage.getItem('sales11')) || [];
+let cart = [];
+let lowOnly = false;
+let currentPage = 'login';
+let isDark = false;
+function getImg(cat, custom){
+  if(custom) return custom;
+  if(cat==='Hot Coffee') return 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&q=80';
+  if(cat==='Iced Coffee') return 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300&q=80';
+  if(cat==='Pastry') return 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&q=80';
+  return 'https://images.unsplash.com/photo-1553787499-6f9133860278?w=300&q=80';
+}
+function toggleDark(){ isDark = !isDark; document.body.classList.toggle('dark', isDark); }
+function togglePass(){
+  let p = document.getElementById('password');
+  let btn = document.getElementById('eyeBtn');
+  if(p.type === 'password'){ p.type = 'text'; btn.innerText = '🙈'; } else { p.type = 'password'; btn.innerText = '👁️'; }
+}
+function showPage(page){
+  currentPage = page;
+  document.getElementById('page-login').style.display = page==='login' ? 'block' : 'none';
+  document.getElementById('page-dashboard').style.display = page==='dashboard' ? 'block' : 'none';
+  document.getElementById('page-inventory').style.display = page==='inventory' ? 'block' : 'none';
+  document.getElementById('page-order').style.display = page==='order' ? 'block' : 'none';
+  document.getElementById('page-profile').style.display = page==='profile' ? 'block' : 'none';
+  document.getElementById('bottomNav').style.display = page==='login' ? 'none' : 'flex';
+  document.getElementById('nav-dashboard').className = page==='dashboard' ? 'active' : '';
+  document.getElementById('nav-inventory').className = page==='inventory' ? 'active' : '';
+  document.getElementById('nav-order').className = page==='order' ? 'active' : '';
+  document.getElementById('nav-profile').className = page==='profile' ? 'active' : '';
+  window.scrollTo({top:0});
+  if(page!=='login') render();
+}
+function goBack(){
+  if(currentPage === 'inventory' || currentPage === 'order' || currentPage === 'profile'){ showPage('dashboard'); }
+  else if(currentPage === 'dashboard'){ if(confirm('Babalik ka sa Login? Maglo-logout ka.')){ logout(); } }
+}
+function login(){
+  let u=document.getElementById('username').value.trim();
+  let p=document.getElementById('password').value.trim();
+  if(u==='admin' && p==='11avenue'){ showPage('dashboard'); } else { alert('Mali yung Username o Password!'); }
+}
+function logout(){ showPage('login'); document.getElementById('username').value=''; document.getElementById('password').value=''; }
+function setLowOnly(val){ lowOnly = val; document.getElementById('btnAll').className = !val ? 'active' : ''; document.getElementById('btnLow').className = val ? 'active' : ''; render(); }
+function sellItem(id){
+  let item = menu.find(i=>i.id==id);
+  if(Number(item.stock) <= 0){ alert('Out of stock na si '+item.name+'!'); return; }
+  item.stock = Number(item.stock) - 1;
+  sales.push({name:item.name, price:item.price, time:new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}), date:new Date().toDateString()});
+  localStorage.setItem('coffeeMenu11', JSON.stringify(menu));
+  localStorage.setItem('sales11', JSON.stringify(sales));
+  render();
+}
+function changeStock(id, delta){
+  let item = menu.find(i=>i.id==id);
+  let newStock = Number(item.stock) + delta;
+  if(newStock < 0) newStock = 0;
+  item.stock = newStock;
+  localStorage.setItem('coffeeMenu11', JSON.stringify(menu));
+  render();
+}
+function saveItem(){
+  let name=document.getElementById('name').value.trim();
+  let category=document.getElementById('category').value;
+  let price=Number(document.getElementById('price').value);
+  let stock=Number(document.getElementById('stock').value);
+  let imgUrl=document.getElementById('imgUrl').value.trim();
+  let editId=document.getElementById('editId').value;
+  if(!name || !price){ alert('Lagyan mo ng Name at Price!'); return; }
+  if(editId){
+    let item=menu.find(i=>i.id==editId);
+    item.name=name; item.category=category; item.price=price; item.stock=stock;
+    if(imgUrl) item.img=imgUrl;
+  } else { menu.push({id:Date.now(), name, category, price, stock, best:false, img:imgUrl || getImg(category)}); }
+  localStorage.setItem('coffeeMenu11', JSON.stringify(menu));
+  clearForm(); render();
+}
+function editItem(id){
+  let item=menu.find(i=>i.id==id);
+  document.getElementById('editId').value=item.id;
+  document.getElementById('name').value=item.name;
+  document.getElementById('category').value=item.category;
+  document.getElementById('price').value=item.price;
+  document.getElementById('stock').value=item.stock;
+  document.getElementById('imgUrl').value=item.img || '';
+  document.getElementById('formTitle').innerText='✏️ Edit Menu';
+  document.getElementById('saveBtn').innerText='Update Menu';
+  document.getElementById('cancelBtn').style.display='block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function cancelEdit(){ clearForm(); }
+function clearForm(){
+  document.getElementById('editId').value=''; document.getElementById('name').value=''; document.getElementById('price').value=''; document.getElementById('stock').value=''; document.getElementById('imgUrl').value='';
+  document.getElementById('formTitle').innerText='➕ Add New Menu'; document.getElementById('saveBtn').innerText='Save Menu'; document.getElementById('cancelBtn').style.display='none';
+}
+function deleteItem(id){
+  if(confirm('Delete mo ba to?')){ menu=menu.filter(i=>i.id!=id); localStorage.setItem('coffeeMenu11', JSON.stringify(menu)); render(); }
+}
+function addToCart(id){
+  let item = menu.find(i=>i.id==id);
+  if(Number(item.stock) <= 0){ alert('Out of stock na si '+item.name); return; }
+  let found = cart.find(c=>c.id==id);
+  if(found){ found.qty++; } else { cart.push({id:item.id, name:item.name, price:item.price, qty:1}); }
+  renderCart();
+}
+function removeFromCart(id){ cart = cart.filter(c=>c.id!=id); renderCart(); }
+function clearCart(){ cart=[]; renderCart(); }
+function renderCart(){
+  let total = cart.reduce((s,c)=>s+(c.price*c.qty),0);
+  document.getElementById('cartCount').innerText = cart.reduce((s,c)=>s+c.qty,0);
+  document.getElementById('cartTotal').innerText = '₱'+total.toLocaleString();
+  let el = document.getElementById('cartList');
+  if(cart.length===0){ el.innerHTML='<div class="empty">Wala pang laman cart mo.</div>'; return; }
+  el.innerHTML = cart.map(c=>`<div class="cart-item"><span><b>${c.name}</b><br><small>₱${c.price} x ${c.qty}</small></span><span><b>₱${c.price*c.qty}</b> <button class="del" style="margin-left:6px" onclick="removeFromCart(${c.id})">✕</button></span></div>`).join('');
+}
+function checkout(){
+  if(cart.length===0){ alert('Wala pang laman cart mo!'); return; }
+  let total = cart.reduce((s,c)=>s+(c.price*c.qty),0);
+  document.getElementById('receiptItems').innerHTML = cart.map(c=>`<div class="receipt-row"><span>${c.name} x ${c.qty}</span><span>₱${c.price*c.qty}</span></div>`).join('');
+  document.getElementById('receiptTotal').innerText = '₱'+total.toLocaleString();
+  document.getElementById('receiptDate').innerText = new Date().toLocaleString();
+  document.getElementById('receiptOverlay').style.display='flex';
+  cart.forEach(c=>{
+    let item = menu.find(i=>i.id==c.id);
+    if(item){
+      for(let k=0;k<c.qty;k++){ sales.push({name:item.name, price:item.price, time:new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}), date:new Date().toDateString()}); }
+      item.stock = Math.max(0, Number(item.stock)-c.qty);
+    }
+  });
+  localStorage.setItem('coffeeMenu11', JSON.stringify(menu));
+  localStorage.setItem('sales11', JSON.stringify(sales));
+  cart=[]; renderCart(); render();
+}
+function closeReceipt(){ document.getElementById('receiptOverlay').style.display='none'; showPage('dashboard'); }
+function render(){
+  let q=document.getElementById('search').value.toLowerCase();
+  let f=document.getElementById('filter').value;
+  let sort=document.getElementById('sortBy').value;
+  let filtered=menu.filter(i=>{
+    let matchName=i.name.toLowerCase().includes(q);
+    let matchCat=f==='All' || i.category===f;
+    let matchLow = !lowOnly || Number(i.stock) <= 5;
+    return matchName && matchCat && matchLow;
+  });
+  if(sort==='priceLow') filtered.sort((a,b)=>a.price-b.price);
+  if(sort==='priceHigh') filtered.sort((a,b)=>b.price-a.price);
+  if(sort==='stockLow') filtered.sort((a,b)=>a.stock-b.stock);
+  if(sort==='name') filtered.sort((a,b)=>a.name.localeCompare(b.name));
+  document.getElementById('totalItems').innerText=menu.length;
+  document.getElementById('totalStock').innerText=menu.reduce((s,i)=>s+Number(i.stock||0),0);
+  document.getElementById('totalStock2').innerText=menu.reduce((s,i)=>s+Number(i.stock||0),0);
+  document.getElementById('totalValue').innerText='₱'+menu.reduce((s,i)=>s+(i.price*Number(i.stock||0)),0).toLocaleString();
+  let low = menu.filter(i=> Number(i.stock) <= 5);
+  document.getElementById('lowStockCount').innerText = low.length + ' Items';
+  document.getElementById('lowStockList').innerHTML = low.map(i=>`<div class="low-item">⚠️ ${i.name} - ${i.stock} nalang natira!</div>`).join('') || '';
+  let today = new Date().toDateString();
+  let todaySales = sales.filter(s=>s.date===today);
+  let totalToday = todaySales.reduce((s,i)=>s+i.price,0);
+  document.getElementById('salesToday').innerText='₱'+totalToday.toLocaleString();
+  document.getElementById('salesCount').innerText=todaySales.length+' items nabenta';
+  let rs=document.getElementById('recentSales');
+  if(todaySales.length===0){ rs.innerHTML='<div style="font-size:13px;color:#aaa;text-align:center;padding:10px">Wala pang benta today. Benta ka na! ☕</div>'; }
+  else { rs.innerHTML = todaySales.slice(-5).reverse().map(s=>`<div class="sale-item"><span><b>${s.name}</b><br><small>${s.time}</small></span><b>₱${s.price}</b></div>`).join(''); }
+  let list=document.getElementById('list');
+  if(filtered.length===0){ list.innerHTML='<div class="empty">Walang menu. Add ka muna ☕</div>'; } else {
+    list.innerHTML=filtered.map(i=>`
+      <div class="item">
+        <img src="${i.img || getImg(i.category)}" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&q=80'">
+        <div class="item-info"><h4>${i.name} ${i.best ? '<span class="best">⭐ BEST SELLER</span>' : ''}</h4>
+        <p><span class="badge">${i.category}</span></p>
+        <p style="display:flex;gap:6px;align-items:center;margin-top:6px"><button class="minus" onclick="changeStock(${i.id},-1)">-</button><span style="font-size:13px;color:#4e342e;font-weight:bold">Stock: ${i.stock}</span><button class="plus" onclick="changeStock(${i.id},1)">+</button> ${Number(i.stock)<=0 ? '<span class="out">OUT OF STOCK</span>' : Number(i.stock)<=5 ? '<span class="low">• LOW</span>' : ''}</p></div>
+        <div><div class="price">₱${i.price}</div><div class="actions"><button class="sell" onclick="sellItem(${i.id})">🛒 Sell</button><button class="edit" onclick="editItem(${i.id})">Edit</button><button class="del" onclick="deleteItem(${i.id})">Delete</button></div></div>
+      </div>
+    `).join('');
+  }
+  let orderList=document.getElementById('orderList');
+  orderList.innerHTML = menu.map(i=>`
+    <div class="item">
+      <img src="${i.img || getImg(i.category)}" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300&q=80'">
+      <div class="item-info"><h4>${i.name}</h4><p>${i.category} • Stock: ${i.stock}</p></div>
+      <div><div class="price">₱${i.price}</div><div class="actions"><button class="addcart" onclick="addToCart(${i.id})" ${Number(i.stock)<=0 ? 'disabled style="opacity:.5"' : ''}>${Number(i.stock)<=0 ? 'Out of Stock' : 'Add to Cart +'}</button></div></div>
+    </div>
+  `).join('');
+  renderCart();
+}
+</script>
+</body>
+</html>
